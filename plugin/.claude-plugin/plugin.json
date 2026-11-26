@@ -1,0 +1,21 @@
+{
+  "name": "on-tidy",
+  "version": "0.1.0",
+  "description": "On 글 다듬기 원격 MCP(https://onmunseo.kr/mcp/tidy) 연결 — 서술형 글을 공문서 개조식으로 바꾸고, 맞춤법·띄어쓰기와 어려운 말을 고치는 원격 MCP 서버. 서버 주소 하나만 담은 설정 꾸러미이며 엔진 코드·비밀값은 없습니다. A remote MCP server that rewrites Korean prose in official bullet style (gaejo), fixes near-certain spelling and spacing errors, and replaces hard words with plain ones.",
+  "author": {
+    "name": "On 문서",
+    "url": "https://github.com/on-munseo"
+  },
+  "homepage": "https://github.com/on-munseo/on-tidy",
+  "repository": "https://github.com/on-munseo/on-tidy",
+  "keywords": [
+    "korean",
+    "spell-check",
+    "proofreading",
+    "plain-language",
+    "gaejo",
+    "mcp"
+  ],
+  "license": "MIT",
+  "privacyPolicyUrl": "https://onmunseo.kr/privacy"
+}

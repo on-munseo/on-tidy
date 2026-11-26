@@ -1,0 +1,14 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.on-munseo/on-tidy",
+  "title": "On 글 다듬기",
+  "description": "Korean bullet-style rewriting, near-certain spelling fixes and plain-language edits",
+  "version": "1.0.0",
+  "websiteUrl": "https://github.com/on-munseo/on-tidy",
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://onmunseo.kr/mcp/tidy"
+    }
+  ]
+}
