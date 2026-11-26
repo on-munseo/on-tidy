@@ -14,7 +14,12 @@ Rewrites prose paragraphs in the □ ○ - bullet style of Korean official docum
 
 This repository holds only the setup guide and configuration files (there is no web page here — to use a screen, open the [On 문서 web editor](https://onmunseo.kr/app/)). The engine and server code of the service are not public. The service and its tools speak Korean.
 
-**Jump to:** [Why](#in-short--why-use-it) · [Tools](#what-it-does) · [Connect](#connect) · [Examples](#examples) · [Measured results](#measured-results) · [Guest and key](#guest-and-key) · [Safety](#safety) · [Good to know](#good-to-know)
+## Comparing with other tools
+
+- **Rules, not AI:** unlike AI rewriting, the same text always gives the same result; after each change, numbers, names and quoted words are recounted sentence by sentence, and a sentence that does not match is left as it was. Nothing is made up.
+- **Where documents go:** documents sent to this address are processed only in memory on the On 문서 server (a data centre in Korea) and discarded afterwards; they are not sent to any outside AI company. Send only public documents or your own to this server-side address; handle internal documents of your organisation with the browser-only features of the [web editor](https://onmunseo.kr/app/) (open, edit and save HWP/HWPX, the pre-approval check, masking personal data) — attachment text extraction, OCR and HWPX creation in the web editor still go through the server.
+
+**Jump to:** [Comparing](#comparing-with-other-tools) · [Why](#in-short--why-use-it) · [Tools](#what-it-does) · [Connect](#connect) · [Examples](#examples) · [Measured results](#measured-results) · [Guest and key](#guest-and-key) · [Safety](#safety) · [Good to know](#good-to-know)
 
 ## In short — why use it
 
@@ -93,6 +98,17 @@ To send a key as a header, append `"--header", "Authorization:${ON_AUTH}"` to `"
 3. Enter your key on the On 문서 sign-in page, then turn the connector on from the tools (+) menu of a chat.
 
 - ChatGPT receives a separate pass instead of your key (same permissions and daily quota). Revoking the key blocks the pass at once.
+
+### Codex
+
+Without a key, add two lines to `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.on-tidy]
+url = "https://onmunseo.kr/mcp/tidy"
+```
+
+- `codex mcp add` opens the On 문서 sign-in window right away. With a key, enter it there; without one, close it (Ctrl-C) and use the two lines above.
 
 ### Cursor
 
@@ -194,7 +210,7 @@ Weak spots: ambiguous wording is left alone, so not every problem is found. Bull
 |---|---|---|
 | How to connect | Add the URL with no authentication | Enter the key on the On 문서 sign-in page (OAuth), or send `Authorization: Bearer <key>` |
 | Tools at this endpoint | 3 | 3 |
-| Daily quota | 50 calls a day and 6 a minute per internet address (IP), counted across all On 문서 endpoints and the web editor. When the shared guest quota for the day runs out, guest access closes until midnight Korea time | A daily quota and concurrency limit set per key |
+| Daily quota | 50 calls a day and 6 a minute (the statute tools `law_`·`med_` have their own 100 a day and 20 a minute) per internet address (IP), counted across all On 문서 endpoints and the web editor. When the shared guest quota for the day runs out, guest access closes until midnight Korea time | A daily quota and concurrency limit set per key |
 | Size | 20,000 characters of text (`on_gaejo`: 2,000 lines) | 20,000 characters of text (`on_gaejo`: 2,000 lines) |
 | Needs a key | — | none (the key must include this bundle — first-issued keys do not) |
 
@@ -208,7 +224,7 @@ Weak spots: ambiguous wording is left alone, so not every problem is found. Bull
 1. **Nothing is kept.** Text you send is discarded when done; the access log holds only the key alias, tool name, request size, time taken and success.
 2. **Rule-based, no AI.** The same text gives the same result.
 3. **Numbers are never changed.** No fix changes a number; after each change, numbers and names are compared with the original, a sentence that does not match is left as it was, and `check` lists anything lost.
-4. **Send only public material or your own.** Do not paste text from internal documents of your organisation.
+4. **Send only public material or your own to this server-side address.** Handle internal documents of your organisation with the browser-only features of the [web editor](https://onmunseo.kr/app/) (open, edit and save HWP/HWPX, the pre-approval check, masking personal data).
 
 Report security problems as described in [SECURITY.md](SECURITY.md).
 
