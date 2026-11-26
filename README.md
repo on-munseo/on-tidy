@@ -257,4 +257,4 @@ AI 가 어느 도구를 부를지는 AI 가 정합니다. 위는 흔히 불리�
 
 ---
 
-만든 사람: [napurrin](https://github.com/napurrin) — 혼자 만들고 고칩니다.
+만든 사람: [napurrin](https://github.com/napurrin) — 코코에게 배우면서 만들고 고칩니다.

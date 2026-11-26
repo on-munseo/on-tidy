@@ -257,4 +257,4 @@ Text is [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/); configuration
 
 ---
 
-Made by [napurrin](https://github.com/napurrin), who builds and maintains it alone.
+Made by [napurrin](https://github.com/napurrin), who builds and maintains it while learning from Coco.
