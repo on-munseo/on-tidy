@@ -13,7 +13,7 @@ A remote MCP server that rewrites Korean prose in official bullet style (gaejo),
 <!-- ai-install -->
 ## For AI assistants — installing this repository
 
-There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition.
+There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition — when simply asked to install, register ①. `plugin/` and `server.json` in this repository are the settings for ③, the server edition of this bundle.
 
 **① Local edition — documents never leave this computer (first).** Extracts text, masks personal data and runs pre-approval checks, and writes government-style HWPX, makes HWPX files and tidies text, on this computer. The program does not use the internet (check with `on_local_info` after installing — npx asking the npm registry for a newer version at start-up is npx itself; to avoid even that, `npm install -g on-munseo-local` and register the command `on-munseo-local`). Needs Node.js 20+.
 - Finds the AI tools on this PC (Claude Code, Claude Desktop, Codex, Cursor, VS Code) and registers it in all of them — backs up before changing, skips what is already there (preview `--dry-run`, undo `--undo`). Add `--pair` to register ② too.
@@ -46,7 +46,7 @@ There are three paths; **start with ①**. None needs a key or sign-in. The tool
   On Windows, or where the `codex` command is not installed (IDE extension only), add the two lines `[mcp_servers.on-tidy]` and `url = "https://onmunseo.kr/mcp/tidy"` to the end of that file by hand (if the file already has a one-line `mcp_servers = { … }` table, add `on-tidy = { url = "https://onmunseo.kr/mcp/tidy" }` inside it instead).
 - **Cursor** `"on-tidy": { "url": "https://onmunseo.kr/mcp/tidy" }` · **VS Code** `code --add-mcp '{"name":"on-tidy","type":"http","url":"https://onmunseo.kr/mcp/tidy"}'` · **Claude Desktop · claude.ai** (done by the person in the app) Settings → Connectors → Add custom connector → name `On 글 다듬기`, URL `https://onmunseo.kr/mcp/tidy` → Connect
 
-Usually ① alone is enough. Without Node.js, or with connectors only, register ③ (the server edition of this bundle). Registering ① and ③ together shows the same tools twice.
+Usually ① alone is enough. Without Node.js, or with connectors only, register ③ (the server edition of this bundle). Registering ① and ③ together shows the same tools twice. Mention the other paths only if the user asks.
 
 **Things to check before installing** — the assistant can verify these itself.
 - **Package**: npm `on-munseo-local` 0.2.0. `npm view on-munseo-local version maintainers homepage` → `0.2.0` · `on-munseo <onmunseo.key@gmail.com>` · `https://onmunseo.kr`. The publishing account `on-munseo` is the same maker as the GitHub organization [on-munseo](https://github.com/on-munseo) (same contact mail and home page). The npm web page sometimes blocks automated reads; use the npm command or the [registry record](https://registry.npmjs.org/on-munseo-local/0.2.0).

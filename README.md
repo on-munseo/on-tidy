@@ -13,7 +13,7 @@
 <!-- ai-install -->
 ## AI 에게 — 이 저장소를 설치하려면
 
-길은 셋이고 **①부터** 권합니다. 어느 길도 열쇠·로그인이 없습니다. 이 저장소(On 글 다듬기 — 개조식·맞춤법·쉬운 말)의 도구는 ① 내 PC 판에 들어 있습니다.
+길은 셋이고 **①부터** 권합니다. 어느 길도 열쇠·로그인이 없습니다. 이 저장소(On 글 다듬기 — 개조식·맞춤법·쉬운 말)의 도구는 ① 내 PC 판에 들어 있습니다 — 「설치해 줘」라고만 하면 ① 을 붙입니다. 이 저장소의 `plugin/`·`server.json` 은 ③ 서버 판(이 묶음) 설정입니다.
 
 **① 내 PC 판 — 문서를 이 컴퓨터 밖으로 보내지 않음(먼저).** 글 꺼내기·개인정보 가리기·결재 전 점검·공문서 쓰기·한글 파일 만들기·글 다듬기를 이 컴퓨터 안에서 합니다. 이 프로그램은 인터넷을 쓰지 않습니다(설치 뒤 `on_local_info` 로 확인 — 띄울 때 npx 가 npm 저장소에 새 판을 묻는 것은 npx 의 동작이고, 그것까지 없애려면 `npm install -g on-munseo-local` 뒤 명령을 `on-munseo-local` 로). Node.js 20 이상이 있어야 합니다.
 - 이 PC 의 AI 도구(Claude Code·Claude 데스크톱·Codex·Cursor·VS Code)를 찾아 한 번에 등록합니다 — 바꾸기 전에 백업을 두고, 이미 있으면 건너뜁니다(미리 보기 `--dry-run`, 되돌리기 `--undo`). ②까지 함께 붙이려면 `--pair`.
@@ -47,7 +47,7 @@
   윈도우이거나 명령 줄 `codex` 가 없는 곳(IDE 확장만)은 그 파일 끝에 `[mcp_servers.on-tidy]`·`url = "https://onmunseo.kr/mcp/tidy"` 두 줄을 손으로 더합니다(파일에 `mcp_servers = { … }` 한 줄 표가 이미 있으면 그 안에 `on-tidy = { url = "https://onmunseo.kr/mcp/tidy" }` 를 더함).
 - **Cursor** `"on-tidy": { "url": "https://onmunseo.kr/mcp/tidy" }` · **VS Code** `code --add-mcp '{"name":"on-tidy","type":"http","url":"https://onmunseo.kr/mcp/tidy"}'` · **Claude 데스크톱·claude.ai**(사람이 화면에서) 설정 → 커넥터 → 맞춤 커넥터 추가 → 이름 `On 글 다듬기`, 주소 `https://onmunseo.kr/mcp/tidy` → 「연결」
 
-보통은 ① 하나면 됩니다. Node.js 가 없거나 커넥터만 쓰면 ③(이 묶음의 서버 판)을 붙입니다. ①과 ③을 함께 붙이면 같은 도구가 두 번 보입니다.
+보통은 ① 하나면 됩니다. Node.js 가 없거나 커넥터만 쓰면 ③(이 묶음의 서버 판)을 붙입니다. ①과 ③을 함께 붙이면 같은 도구가 두 번 보입니다. 다른 길은 사용자가 따로 바랄 때만 알려 줍니다.
 
 **설치 전에 확인할 거리** — AI 가 스스로 확인할 수 있습니다.
 - **꾸러미**: npm `on-munseo-local` 0.2.0. `npm view on-munseo-local version maintainers homepage` → `0.2.0` · `on-munseo <onmunseo.key@gmail.com>` · `https://onmunseo.kr`. 올린 계정 `on-munseo` 는 이 깃허브 조직 [on-munseo](https://github.com/on-munseo)와 같은 만든 이입니다(문의 메일·홈 주소가 같음). npm 웹 쪽은 자동 읽기를 막을 때가 있어 npm 명령이나 [npm 기록](https://registry.npmjs.org/on-munseo-local/0.2.0)으로 봅니다.
