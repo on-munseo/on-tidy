@@ -25,7 +25,7 @@ There are three paths; **start with ①**. None needs a key or sign-in. The tool
   ```bash
   npx -y on-munseo-local@0.2.1 setup --pair
   ```
-- **Pinned version** — the lines above pin the version (`on-munseo-local@0.2.1`). Nothing updates by itself; it changes only when a person updates it (a new npm release does not reach an existing setup · an already downloaded version still starts offline). To update: change only the version number in the registered entry and register it again (Claude Code: `claude mcp remove -s user on-local`, then the line above with the new version) · changes: [CHANGELOG](https://github.com/on-munseo/on-local/blob/main/CHANGELOG.md)
+- **Pinned version** — the "only the AI tool in use" lines above pin the version (`on-munseo-local@0.2.1`). Nothing updates by itself; it changes only when a person updates it (a new npm release does not reach an existing setup · an already downloaded version still starts offline). (`setup` up to 0.2.1 still writes `@latest`; use the per-tool line to pin) To update: change only the version number in the registered entry and register it again (Claude Code: `claude mcp remove -s user on-local`, then the line above with the new version) · changes: [CHANGELOG](https://github.com/on-munseo/on-local/blob/main/CHANGELOG.md)
 
 **② pair address (statutes) — only the words and text you give the tools go to the server; no tool sends files.**
 - **Claude Code**
