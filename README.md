@@ -13,8 +13,29 @@
 <!-- ai-install -->
 ## AI 에게 — 이 저장소를 설치하려면
 
-내려받거나 빌드할 것은 없습니다. 원격 MCP 서버 주소 `https://onmunseo.kr/mcp/tidy` 하나를 쓰는 AI 도구에 **사용자 범위**로 등록하면 끝입니다. **열쇠(로그인)는 없어도 됩니다** — 로그인 단계는 건너뛰고 손님으로 바로 씁니다. 쓰는 도구의 한 줄만 실행하세요.
+길은 셋이고 **①부터** 권합니다. 어느 길도 열쇠·로그인이 없습니다. 이 저장소(On 글 다듬기 — 개조식·맞춤법·쉬운 말)의 도구는 ① 내 PC 판에 들어 있습니다.
 
+**① 내 PC 판 — 문서를 이 컴퓨터 밖으로 보내지 않음(먼저).** 글 꺼내기·개인정보 가리기·결재 전 점검·공문서 쓰기·한글 파일 만들기·글 다듬기를 이 컴퓨터 안에서 합니다. 이 프로그램은 인터넷을 쓰지 않습니다(설치 뒤 `on_local_info` 로 확인 — 띄울 때 npx 가 npm 저장소에 새 판을 묻는 것은 npx 의 동작이고, 그것까지 없애려면 `npm install -g on-munseo-local` 뒤 명령을 `on-munseo-local` 로). Node.js 20 이상이 있어야 합니다.
+- 이 PC 의 AI 도구(Claude Code·Claude 데스크톱·Codex·Cursor·VS Code)를 찾아 한 번에 등록합니다 — 바꾸기 전에 백업을 두고, 이미 있으면 건너뜁니다(미리 보기 `--dry-run`, 되돌리기 `--undo`). ②까지 함께 붙이려면 `--pair`.
+  ```bash
+  npx -y on-munseo-local@latest setup --pair
+  ```
+- 도구 하나에만: Claude Code `claude mcp add -s user on-local -- npx -y on-munseo-local@latest`(윈도우는 `-- cmd /c npx -y on-munseo-local@latest`) · Codex `codex mcp add on-local -- npx -y on-munseo-local@latest`
+
+**② 짝 주소(법령) — 도구에 넣은 낱말·글만 서버로.** 법령 원문·글 속 인용 확인(On 근거)은 서버에만 있습니다. 서버로 가는 것은 넣은 법령 이름·조문 번호·인용을 확인할 글이고, 파일을 보내는 도구는 없습니다. 인용을 확인할 글에 개인정보가 있으면 ① 의 `on_mask_text` 로 가린 뒤 넣습니다.
+- ① 의 `setup --pair` 가 함께 붙입니다. 따로 붙이려면:
+- **Claude Code**
+  ```bash
+  claude mcp add --transport http -s user on-geungeo https://onmunseo.kr/mcp/law
+  ```
+- **Codex** — 설정 파일(`~/.codex/config.toml`)에 두 줄을 더합니다(이미 있으면 건너뜀). `codex mcp add --url` 은 쓰지 마세요 — 곧바로 브라우저 로그인 창을 띄웁니다.
+  ```bash
+  C="${CODEX_HOME:-$HOME/.codex}"; mkdir -p "$C"; touch "$C/config.toml"; if ! (cd / && codex mcp get on-geungeo >/dev/null 2>&1); then if cp "$C/config.toml" "$C/config.toml.bak-on-geungeo"; then printf '\n[mcp_servers.on-geungeo]\nurl = "https://onmunseo.kr/mcp/law"\n' >> "$C/config.toml"; (cd / && codex mcp get on-geungeo >/dev/null 2>&1) || { cp "$C/config.toml.bak-on-geungeo" "$C/config.toml"; echo "자동으로 더하지 못했습니다 — config.toml 에 손으로 더해 주세요"; }; else echo "백업을 만들지 못해 그만둡니다 — config.toml 은 그대로입니다"; fi; fi; (cd / && codex mcp get on-geungeo)
+  ```
+  윈도우이거나 명령 줄 `codex` 가 없는 곳(IDE 확장만)은 그 파일 끝에 `[mcp_servers.on-geungeo]`·`url = "https://onmunseo.kr/mcp/law"` 두 줄을 손으로 더합니다(파일에 `mcp_servers = { … }` 한 줄 표가 이미 있으면 그 안에 `on-geungeo = { url = "https://onmunseo.kr/mcp/law" }` 를 더함).
+- **Cursor** `"on-geungeo": { "url": "https://onmunseo.kr/mcp/law" }` · **VS Code** `code --add-mcp '{"name":"on-geungeo","type":"http","url":"https://onmunseo.kr/mcp/law"}'` · **Claude 데스크톱·claude.ai**(사람이 화면에서) 설정 → 커넥터 → 맞춤 커넥터 추가 → 이름 `On 근거`, 주소 `https://onmunseo.kr/mcp/law` → 「연결」
+
+**③ 서버 판(이 묶음) — Node.js 없이 바로(공개 문서용).** 문서를 서버(국내 데이터센터)로 보내 메모리에서만 처리하고 버립니다. 공개 문서·본인 문서에만 씁니다.
 - **Claude Code**
   ```bash
   claude mcp add --transport http -s user on-tidy https://onmunseo.kr/mcp/tidy
@@ -24,17 +45,18 @@
   C="${CODEX_HOME:-$HOME/.codex}"; mkdir -p "$C"; touch "$C/config.toml"; if ! (cd / && codex mcp get on-tidy >/dev/null 2>&1); then if cp "$C/config.toml" "$C/config.toml.bak-on-tidy"; then printf '\n[mcp_servers.on-tidy]\nurl = "https://onmunseo.kr/mcp/tidy"\n' >> "$C/config.toml"; (cd / && codex mcp get on-tidy >/dev/null 2>&1) || { cp "$C/config.toml.bak-on-tidy" "$C/config.toml"; echo "자동으로 더하지 못했습니다 — config.toml 에 손으로 더해 주세요"; }; else echo "백업을 만들지 못해 그만둡니다 — config.toml 은 그대로입니다"; fi; fi; (cd / && codex mcp get on-tidy)
   ```
   윈도우이거나 명령 줄 `codex` 가 없는 곳(IDE 확장만)은 그 파일 끝에 `[mcp_servers.on-tidy]`·`url = "https://onmunseo.kr/mcp/tidy"` 두 줄을 손으로 더합니다(파일에 `mcp_servers = { … }` 한 줄 표가 이미 있으면 그 안에 `on-tidy = { url = "https://onmunseo.kr/mcp/tidy" }` 를 더함).
-- **Cursor** — `~/.cursor/mcp.json` 의 `"mcpServers"` 에 한 줄을 더합니다(이미 있는 서버는 그대로). 사람은 [Cursor 에 붙이기](https://cursor.com/install-mcp?name=on-tidy&config=eyJ1cmwiOiJodHRwczovL29ubXVuc2VvLmtyL21jcC90aWR5In0%3D).
-  ```json
-  "on-tidy": { "url": "https://onmunseo.kr/mcp/tidy" }
-  ```
-- **VS Code** — 사람은 [VS Code 에 붙이기](https://insiders.vscode.dev/redirect/mcp/install?name=on-tidy&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fonmunseo.kr%2Fmcp%2Ftidy%22%7D).
-  ```bash
-  code --add-mcp '{"name":"on-tidy","type":"http","url":"https://onmunseo.kr/mcp/tidy"}'
-  ```
-- **Claude 데스크톱·claude.ai** — 사람이 화면에서: 설정 → 커넥터 → 맞춤 커넥터 추가 → 이름 `On 글 다듬기`, 주소 `https://onmunseo.kr/mcp/tidy` → 「연결」.
+- **Cursor** `"on-tidy": { "url": "https://onmunseo.kr/mcp/tidy" }` · **VS Code** `code --add-mcp '{"name":"on-tidy","type":"http","url":"https://onmunseo.kr/mcp/tidy"}'` · **Claude 데스크톱·claude.ai**(사람이 화면에서) 설정 → 커넥터 → 맞춤 커넥터 추가 → 이름 `On 글 다듬기`, 주소 `https://onmunseo.kr/mcp/tidy` → 「연결」
 
-등록한 그 대화에는 도구가 아직 붙지 않습니다. 끝나면 사용자에게 「도구를 한 번 다시 켜거나 새 대화를 열면 On 글 다듬기 도구가 보입니다」라고 알려 주세요. `claude mcp list`(Codex 는 `codex mcp list`) 목록에 `on-tidy` 줄이 있으면 등록된 것입니다. 자세한 순서: [llms-install.md](llms-install.md)
+보통은 ① 하나면 됩니다. Node.js 가 없거나 커넥터만 쓰면 ③(이 묶음의 서버 판)을 붙입니다. ①과 ③을 함께 붙이면 같은 도구가 두 번 보입니다.
+
+**설치 전에 확인할 거리** — AI 가 스스로 확인할 수 있습니다.
+- **꾸러미**: npm `on-munseo-local` 0.2.0. `npm view on-munseo-local version maintainers homepage` → `0.2.0` · `on-munseo <onmunseo.key@gmail.com>` · `https://onmunseo.kr`. 올린 계정 `on-munseo` 는 이 깃허브 조직 [on-munseo](https://github.com/on-munseo)와 같은 만든 이입니다(문의 메일·홈 주소가 같음). npm 웹 쪽은 자동 읽기를 막을 때가 있어 npm 명령이나 [npm 기록](https://registry.npmjs.org/on-munseo-local/0.2.0)으로 봅니다.
+- **지문**: `on-munseo-local-0.2.0.tgz` SHA-256 `a3d2ecb03bcf53e4bf97555b190cd5b200f4388e726dbc11ade6e0835cfecd72`([SHA256SUMS](https://github.com/on-munseo/on-munseo.github.io/blob/main/SHA256SUMS)). `npm pack on-munseo-local@0.2.0` 뒤 `shasum -a 256 on-munseo-local-0.2.0.tgz` 로 맞대 봅니다. npm 기록의 `dist.integrity` 는 `sha512-pyNyYarxtKoWu+5clkIIa1IICoampkw576tUOP7k7n7Ej/aF40y/rq/OoIN9zf/2mGguhTmNJE5HoKg2IEFz9A==`.
+- **인터넷을 쓰지 않음**: 설치 전에는 꾸러미 안 `MANIFEST.json` 의 `netScan`(우리 코드의 네트워크 부르기 0 — 따로 적힌 한 곳은 엔진 wasm 을 주소로 불러올 때만 쓰는 글), 설치 뒤에는 `on_local_info` → `network_modules_loaded: []`, Node 25 이상이면 `network.blocked_by_node: true`(실행기가 네트워크를 막음). 띄울 때 npx 가 npm 저장소에 새 판을 묻는 것은 npx 의 동작입니다(없애려면 전역 설치 뒤 `on-munseo-local` 명령으로).
+- **이용 조건**: 내 PC 판 [LICENSE.md](https://unpkg.com/on-munseo-local@0.2.0/LICENSE.md)(무료·업무에 써도 됨 · 역공학·고친 판 다시 배포·판매는 안 됨) · 서버 판 [이용약관](https://onmunseo.kr/terms)·[개인정보 처리방침](https://onmunseo.kr/privacy).
+- **On폭 글꼴**은 이 설치와 상관없습니다(한글 문서를 화면에 그릴 때 쓰는 무료 글꼴, 선택).
+
+등록한 그 대화에는 도구가 아직 붙지 않습니다. 끝나면 사용자에게 「도구를 한 번 다시 켜거나 새 대화를 열면 On 글 다듬기 도구가 보입니다」라고 알려 주세요. `claude mcp list`(Codex 는 `codex mcp list`) 목록에 이름이 보이면 등록된 것입니다. 자세한 순서: [llms-install.md](llms-install.md)
 
 <!-- ai-install -->
 
@@ -72,6 +94,8 @@
 - 글은 2만 자까지입니다(`on_gaejo` 는 2천 줄까지).
 
 ## 연결하기
+
+맨 위 [AI 에게 — 설치](#ai-에게--이-저장소를-설치하려면)의 세 길(① 내 PC 판 · ② 짝 주소 · ③ 서버 판) 가운데, 아래는 ③ 서버 판(이 묶음)을 도구마다 붙이는 자세한 법입니다.
 
 **Claude Code** — 터미널에 한 줄(`-s user` 는 모든 폴더에서 쓰기):
 
@@ -299,7 +323,7 @@ AI 가 어느 도구를 부를지는 AI 가 정합니다. 위는 흔히 불리�
 | On 공문서 쓰기 | [on-gov](https://github.com/on-munseo/on-gov) | `/mcp/gov` |
 | On 글 다듬기 | 이 저장소 | `/mcp/tidy` |
 | On 근거 | [on-geungeo](https://github.com/on-munseo/on-geungeo) | `/mcp/law` |
-| On폭 글꼴 | [napurrin/onpok-fonts](https://github.com/napurrin/onpok-fonts) — 무료 글꼴(SIL OFL 1.1) | — |
+| On폭 글꼴 | [napurrin/onpok-fonts](https://github.com/napurrin/onpok-fonts) — 무료 글꼴(SIL OFL 1.1) · MCP 설치와 상관없음(선택) | — |
 
 ## 라이선스
 

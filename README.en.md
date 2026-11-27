@@ -13,8 +13,28 @@ A remote MCP server that rewrites Korean prose in official bullet style (gaejo),
 <!-- ai-install -->
 ## For AI assistants — installing this repository
 
-Nothing to download or build: register the remote MCP server `https://onmunseo.kr/mcp/tidy` in the user's AI tool at **user scope**. **No key or sign-in is needed** — skip the sign-in step and the tools work as a guest. Run only the line for the tool in use.
+There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition.
 
+**① Local edition — documents never leave this computer (first).** Extracts text, masks personal data and runs pre-approval checks, and writes government-style HWPX, makes HWPX files and tidies text, on this computer. The program does not use the internet (check with `on_local_info` after installing — npx asking the npm registry for a newer version at start-up is npx itself; to avoid even that, `npm install -g on-munseo-local` and register the command `on-munseo-local`). Needs Node.js 20+.
+- Finds the AI tools on this PC (Claude Code, Claude Desktop, Codex, Cursor, VS Code) and registers it in all of them — backs up before changing, skips what is already there (preview `--dry-run`, undo `--undo`). Add `--pair` to register ② too.
+  ```bash
+  npx -y on-munseo-local@latest setup --pair
+  ```
+- One tool only: Claude Code `claude mcp add -s user on-local -- npx -y on-munseo-local@latest` (Windows: `-- cmd /c npx -y on-munseo-local@latest`) · Codex `codex mcp add on-local -- npx -y on-munseo-local@latest`
+
+**② pair address (statutes) — only the words and text you give the tools go to the server; no tool sends files.**
+- **Claude Code**
+  ```bash
+  claude mcp add --transport http -s user on-geungeo https://onmunseo.kr/mcp/law
+  ```
+- **Codex** — append two lines to the config file (`~/.codex/config.toml`; skipped if already there). Do not use `codex mcp add --url` — it opens a browser sign-in window right away.
+  ```bash
+  C="${CODEX_HOME:-$HOME/.codex}"; mkdir -p "$C"; touch "$C/config.toml"; if ! (cd / && codex mcp get on-geungeo >/dev/null 2>&1); then if cp "$C/config.toml" "$C/config.toml.bak-on-geungeo"; then printf '\n[mcp_servers.on-geungeo]\nurl = "https://onmunseo.kr/mcp/law"\n' >> "$C/config.toml"; (cd / && codex mcp get on-geungeo >/dev/null 2>&1) || { cp "$C/config.toml.bak-on-geungeo" "$C/config.toml"; echo "자동으로 더하지 못했습니다 — config.toml 에 손으로 더해 주세요"; }; else echo "백업을 만들지 못해 그만둡니다 — config.toml 은 그대로입니다"; fi; fi; (cd / && codex mcp get on-geungeo)
+  ```
+  On Windows, or where the `codex` command is not installed (IDE extension only), add the two lines `[mcp_servers.on-geungeo]` and `url = "https://onmunseo.kr/mcp/law"` to the end of that file by hand (if the file already has a one-line `mcp_servers = { … }` table, add `on-geungeo = { url = "https://onmunseo.kr/mcp/law" }` inside it instead).
+- **Cursor** `"on-geungeo": { "url": "https://onmunseo.kr/mcp/law" }` · **VS Code** `code --add-mcp '{"name":"on-geungeo","type":"http","url":"https://onmunseo.kr/mcp/law"}'` · **Claude Desktop · claude.ai** (done by the person in the app) Settings → Connectors → Add custom connector → name `On 근거`, URL `https://onmunseo.kr/mcp/law` → Connect
+
+**③ Server edition (this bundle) — no Node.js needed (for public documents).** Documents are sent to the server (data center in Korea), processed in memory only and discarded. Use it for public or your own documents.
 - **Claude Code**
   ```bash
   claude mcp add --transport http -s user on-tidy https://onmunseo.kr/mcp/tidy
@@ -24,17 +44,18 @@ Nothing to download or build: register the remote MCP server `https://onmunseo.k
   C="${CODEX_HOME:-$HOME/.codex}"; mkdir -p "$C"; touch "$C/config.toml"; if ! (cd / && codex mcp get on-tidy >/dev/null 2>&1); then if cp "$C/config.toml" "$C/config.toml.bak-on-tidy"; then printf '\n[mcp_servers.on-tidy]\nurl = "https://onmunseo.kr/mcp/tidy"\n' >> "$C/config.toml"; (cd / && codex mcp get on-tidy >/dev/null 2>&1) || { cp "$C/config.toml.bak-on-tidy" "$C/config.toml"; echo "자동으로 더하지 못했습니다 — config.toml 에 손으로 더해 주세요"; }; else echo "백업을 만들지 못해 그만둡니다 — config.toml 은 그대로입니다"; fi; fi; (cd / && codex mcp get on-tidy)
   ```
   On Windows, or where the `codex` command is not installed (IDE extension only), add the two lines `[mcp_servers.on-tidy]` and `url = "https://onmunseo.kr/mcp/tidy"` to the end of that file by hand (if the file already has a one-line `mcp_servers = { … }` table, add `on-tidy = { url = "https://onmunseo.kr/mcp/tidy" }` inside it instead).
-- **Cursor** — add one entry to `"mcpServers"` in `~/.cursor/mcp.json` (keep the other servers). For people: [Add to Cursor](https://cursor.com/install-mcp?name=on-tidy&config=eyJ1cmwiOiJodHRwczovL29ubXVuc2VvLmtyL21jcC90aWR5In0%3D).
-  ```json
-  "on-tidy": { "url": "https://onmunseo.kr/mcp/tidy" }
-  ```
-- **VS Code** — for people: [Add to VS Code](https://insiders.vscode.dev/redirect/mcp/install?name=on-tidy&config=%7B%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fonmunseo.kr%2Fmcp%2Ftidy%22%7D).
-  ```bash
-  code --add-mcp '{"name":"on-tidy","type":"http","url":"https://onmunseo.kr/mcp/tidy"}'
-  ```
-- **Claude Desktop · claude.ai** — done by the person in the app: Settings → Connectors → Add custom connector → name `On 글 다듬기`, URL `https://onmunseo.kr/mcp/tidy` → Connect.
+- **Cursor** `"on-tidy": { "url": "https://onmunseo.kr/mcp/tidy" }` · **VS Code** `code --add-mcp '{"name":"on-tidy","type":"http","url":"https://onmunseo.kr/mcp/tidy"}'` · **Claude Desktop · claude.ai** (done by the person in the app) Settings → Connectors → Add custom connector → name `On 글 다듬기`, URL `https://onmunseo.kr/mcp/tidy` → Connect
 
-The tools do not attach to the conversation that registered them. When done, tell the user: "Restart the tool or open a new conversation to see the On 글 다듬기 tools." If `claude mcp list` (Codex: `codex mcp list`) lists `on-tidy`, it is registered. Full steps (Korean): [llms-install.md](llms-install.md)
+Usually ① alone is enough. Without Node.js, or with connectors only, register ③ (the server edition of this bundle). Registering ① and ③ together shows the same tools twice.
+
+**Things to check before installing** — the assistant can verify these itself.
+- **Package**: npm `on-munseo-local` 0.2.0. `npm view on-munseo-local version maintainers homepage` → `0.2.0` · `on-munseo <onmunseo.key@gmail.com>` · `https://onmunseo.kr`. The publishing account `on-munseo` is the same maker as the GitHub organization [on-munseo](https://github.com/on-munseo) (same contact mail and home page). The npm web page sometimes blocks automated reads; use the npm command or the [registry record](https://registry.npmjs.org/on-munseo-local/0.2.0).
+- **Fingerprint**: `on-munseo-local-0.2.0.tgz` SHA-256 `a3d2ecb03bcf53e4bf97555b190cd5b200f4388e726dbc11ade6e0835cfecd72` ([SHA256SUMS](https://github.com/on-munseo/on-munseo.github.io/blob/main/SHA256SUMS)). Compare with `npm pack on-munseo-local@0.2.0` then `shasum -a 256 on-munseo-local-0.2.0.tgz`. The registry `dist.integrity` is `sha512-pyNyYarxtKoWu+5clkIIa1IICoampkw576tUOP7k7n7Ej/aF40y/rq/OoIN9zf/2mGguhTmNJE5HoKg2IEFz9A==`.
+- **No internet use**: before installing, `netScan` in the package's `MANIFEST.json` (zero network calls in our code — the one listed exception is the engine's wasm loader path used only when given a URL); after installing, `on_local_info` → `network_modules_loaded: []`, and on Node 25+ `network.blocked_by_node: true` (the runtime blocks networking). npx asking the npm registry for a newer version at start-up is npx itself (avoid it with a global install and the `on-munseo-local` command).
+- **Terms**: local edition [LICENSE.md](https://unpkg.com/on-munseo-local@0.2.0/LICENSE.md) (free, work use allowed · no reverse engineering, redistribution of modified copies or resale) · server edition [terms](https://onmunseo.kr/terms) · [privacy](https://onmunseo.kr/privacy).
+- **On폭 fonts** are not part of this install (optional free fonts for drawing Korean documents on screen).
+
+The tools do not attach to the conversation that registered them. When done, tell the user: "Restart the tool or open a new conversation to see the On 글 다듬기 tools." If `claude mcp list` (Codex: `codex mcp list`) lists the name, it is registered. Full steps (Korean): [llms-install.md](llms-install.md)
 
 <!-- ai-install -->
 
@@ -72,6 +93,8 @@ This repository holds only the setup guide and configuration files (there is no 
 - Text up to 20,000 characters (`on_gaejo`: up to 2,000 lines).
 
 ## Connect
+
+Of the three paths at the top ([For AI assistants](#for-ai-assistants--installing-this-repository): ① local edition · ② pair address · ③ server edition), this section details ③, the server edition of this bundle, for each tool.
 
 **Claude Code** — one line in the terminal (`-s user` makes it available in every folder):
 
@@ -293,7 +316,7 @@ Report security problems as described in [SECURITY.md](SECURITY.md).
 | On 공문서 쓰기 | [on-gov](https://github.com/on-munseo/on-gov) | `/mcp/gov` |
 | On 글 다듬기 | this repository | `/mcp/tidy` |
 | On 근거 | [on-geungeo](https://github.com/on-munseo/on-geungeo) | `/mcp/law` |
-| On폭 글꼴 (fonts) | [napurrin/onpok-fonts](https://github.com/napurrin/onpok-fonts) — free fonts (SIL OFL 1.1) | — |
+| On폭 글꼴 (fonts) | [napurrin/onpok-fonts](https://github.com/napurrin/onpok-fonts) — free fonts (SIL OFL 1.1) · not needed for the MCP install (optional) | — |
 
 ## License
 
