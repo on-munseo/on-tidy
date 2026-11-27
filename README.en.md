@@ -10,8 +10,28 @@ A remote MCP server that rewrites Korean prose in official bullet style (gaejo),
 
 </div>
 
+Rewrites prose paragraphs in the □ ○ - bullet style of Korean official documents (“~함/~임” endings, one idea per line) (`on_gaejo`), fixes only spelling and spacing errors that are almost certainly wrong (`on_spell`), and replaces translationese, double passives, redundant phrases and hard Sino-Korean words with plain ones (`on_plain`). All rule-based (no AI); after each change, numbers and names are compared with the original, and a sentence that does not match is left as it was.
+
+This repository holds only the setup guide and configuration files (including one small plugin launcher) (there is no web page here — to use a screen, open the [On 문서 web editor](https://onmunseo.kr/app/)). The engine and server code of the service are not public. The service and its tools speak Korean.
+
+- **Rules, not AI:** with no language model involved, the same text always gives the same result; after each change, numbers, names and quoted words are recounted sentence by sentence, and a sentence that does not match is left as it was. Nothing is made up.
+- **Where documents go:** documents sent to this address are processed only in memory on the On 문서 server (a data centre in Korea) and discarded afterwards; they are not sent to any outside AI company. Send only public documents or your own to this server-side address; handle internal documents of your organisation with the browser-only features of the [web editor](https://onmunseo.kr/app/) (open, edit and save HWP/HWPX, the pre-approval check, masking personal data) — attachment text extraction, OCR and HWPX creation in the web editor still go through the server.
+
+**Jump to:** [Why](#in-short--why-use-it) · [Install](#installation-guide-for-people-and-ai-assistants) · [Measured results](#measured-results) · [Tools](#what-it-does) · [Connect](#connect) · [Examples](#examples) · [Guest and key](#guest-and-key) · [Safety](#safety) · [Good to know](#good-to-know)
+
+## In short — why use it
+
+| Common pain | With On 글 다듬기 |
+|---|---|
+| You rewrite every sentence ending to turn prose into bullet style | `on_gaejo` changes only sentence splits, final predicates, leading connectives and joined long sentences to produce □ ○ - bullets |
+| You hunt for errors like “몇일” or “할수있다” | `on_spell` fixes only near-certain errors and returns each fix with its reason |
+| Phrases like “~에 있어서” or “제고하다” sound stiff | `on_plain` replaces translationese, double passives, redundant phrases and hard words |
+| You worry an AI will change numbers while polishing | No fix ever changes a number; after each change, numbers and names are compared with the original and reported in `check` |
+
+**When you do not need it:** The spell checker in Hancom Hangul, or reading it yourself, is often enough. This tool leaves ambiguous wording alone, so it does not find everything.
+
 <!-- ai-install -->
-## For AI assistants — installing this repository
+## Installation guide (for people and AI assistants)
 
 There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition (the npm package `on-munseo-local` by the same maker, on-munseo — see the checks below) — when simply asked to install, register ①. `plugin/` (the Claude Code plugin) in this repository adds ①, and `server.json` (for the official MCP registry) lists ③, the server edition of this bundle.
 
@@ -64,27 +84,11 @@ The tools do not attach to the conversation that registered them. When done, tel
 
 <!-- ai-install -->
 
-Rewrites prose paragraphs in the □ ○ - bullet style of Korean official documents (“~함/~임” endings, one idea per line) (`on_gaejo`), fixes only spelling and spacing errors that are almost certainly wrong (`on_spell`), and replaces translationese, double passives, redundant phrases and hard Sino-Korean words with plain ones (`on_plain`). All rule-based (no AI); after each change, numbers and names are compared with the original, and a sentence that does not match is left as it was.
+## Measured results
 
-This repository holds only the setup guide and configuration files (including one small plugin launcher) (there is no web page here — to use a screen, open the [On 문서 web editor](https://onmunseo.kr/app/)). The engine and server code of the service are not public. The service and its tools speak Korean.
+There is no separate accuracy score for these three tools yet. When we measure one, it will appear here and in [CHANGELOG.md](CHANGELOG.md). Instead, every result includes `check` (the numbers and names lost, if any).
 
-## Comparing with other tools
-
-- **Rules, not AI:** unlike AI rewriting, the same text always gives the same result; after each change, numbers, names and quoted words are recounted sentence by sentence, and a sentence that does not match is left as it was. Nothing is made up.
-- **Where documents go:** documents sent to this address are processed only in memory on the On 문서 server (a data centre in Korea) and discarded afterwards; they are not sent to any outside AI company. Send only public documents or your own to this server-side address; handle internal documents of your organisation with the browser-only features of the [web editor](https://onmunseo.kr/app/) (open, edit and save HWP/HWPX, the pre-approval check, masking personal data) — attachment text extraction, OCR and HWPX creation in the web editor still go through the server.
-
-**Jump to:** [Comparing](#comparing-with-other-tools) · [Why](#in-short--why-use-it) · [Tools](#what-it-does) · [Connect](#connect) · [Examples](#examples) · [Measured results](#measured-results) · [Guest and key](#guest-and-key) · [Safety](#safety) · [Good to know](#good-to-know)
-
-## In short — why use it
-
-| Common pain | With On 글 다듬기 |
-|---|---|
-| You rewrite every sentence ending to turn prose into bullet style | `on_gaejo` changes only sentence splits, final predicates, leading connectives and joined long sentences to produce □ ○ - bullets |
-| You hunt for errors like “몇일” or “할수있다” | `on_spell` fixes only near-certain errors and returns each fix with its reason |
-| Phrases like “~에 있어서” or “제고하다” sound stiff | `on_plain` replaces translationese, double passives, redundant phrases and hard words |
-| You worry an AI will change numbers while polishing | No fix ever changes a number; after each change, numbers and names are compared with the original and reported in `check` |
-
-**When you do not need it:** The spell checker in Hancom Hangul, or reading it yourself, is often enough. This tool leaves ambiguous wording alone, so it does not find everything.
+Weak spots: ambiguous wording is left alone, so not every problem is found. Bullet-style rewriting leaves sentences with an unclear ending unchanged.
 
 ## What it does
 
@@ -99,7 +103,7 @@ This repository holds only the setup guide and configuration files (including on
 
 ## Connect
 
-Of the three paths at the top ([For AI assistants](#for-ai-assistants--installing-this-repository): ① local edition · ② pair address · ③ server edition), this section details ③, the server edition of this bundle, for each tool.
+Of the three paths in the [installation guide](#installation-guide-for-people-and-ai-assistants) above (① local edition · ② pair address · ③ server edition), this section details ③, the server edition of this bundle, for each tool.
 
 **Claude Code** — one line in the terminal (`-s user` makes it available in every folder):
 
@@ -253,12 +257,6 @@ The reply was “며칠 뒤에 다시 검토할 수 있다.” with 2 fixes (1 s
 | “Make this text plainer” | `on_plain` |
 
 The AI decides which tool to call; these are typical cases.
-
-## Measured results
-
-There is no separate accuracy score for these three tools yet. When we measure one, it will appear here and in [CHANGELOG.md](CHANGELOG.md). Instead, every result includes `check` (the numbers and names lost, if any).
-
-Weak spots: ambiguous wording is left alone, so not every problem is found. Bullet-style rewriting leaves sentences with an unclear ending unchanged.
 
 ## Guest and key
 
