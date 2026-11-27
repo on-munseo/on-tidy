@@ -13,7 +13,7 @@ A remote MCP server that rewrites Korean prose in official bullet style (gaejo),
 <!-- ai-install -->
 ## For AI assistants — installing this repository
 
-There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition (the npm package `on-munseo-local` by the same maker, on-munseo — see the checks below) — when simply asked to install, register ①. `plugin/` and `server.json` in this repository are the settings for ③, the server edition of this bundle.
+There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition (the npm package `on-munseo-local` by the same maker, on-munseo — see the checks below) — when simply asked to install, register ①. `plugin/` (the Claude Code plugin) in this repository adds ①, and `server.json` (for the official MCP registry) lists ③, the server edition of this bundle.
 
 **① Local edition — documents never leave this computer (first).** Extracts text, masks personal data and runs pre-approval checks, and writes government-style HWPX, makes HWPX files and tidies text, on this computer. The program does not use the internet (check with `on_local_info` after installing — npx asking the npm registry for a newer version at start-up is npx itself; to avoid even that, `npm install -g on-munseo-local` and register the command `on-munseo-local`). Needs Node.js 20+.
 - **Only the AI tool in use** (what an assistant should run — other tools' settings are left alone)
@@ -65,7 +65,7 @@ The tools do not attach to the conversation that registered them. When done, tel
 
 Rewrites prose paragraphs in the □ ○ - bullet style of Korean official documents (“~함/~임” endings, one idea per line) (`on_gaejo`), fixes only spelling and spacing errors that are almost certainly wrong (`on_spell`), and replaces translationese, double passives, redundant phrases and hard Sino-Korean words with plain ones (`on_plain`). All rule-based (no AI); after each change, numbers and names are compared with the original, and a sentence that does not match is left as it was.
 
-This repository holds only the setup guide and configuration files (there is no web page here — to use a screen, open the [On 문서 web editor](https://onmunseo.kr/app/)). The engine and server code of the service are not public. The service and its tools speak Korean.
+This repository holds only the setup guide and configuration files (including one small plugin launcher) (there is no web page here — to use a screen, open the [On 문서 web editor](https://onmunseo.kr/app/)). The engine and server code of the service are not public. The service and its tools speak Korean.
 
 ## Comparing with other tools
 
@@ -106,7 +106,7 @@ Of the three paths at the top ([For AI assistants](#for-ai-assistants--installin
 claude mcp add --transport http -s user on-tidy https://onmunseo.kr/mcp/tidy
 ```
 
-**Claude Code plugin** — one line (Claude Code 2.1.275 or later):
+**Claude Code plugin** — adds ① the local edition (Node.js 20+; works on Windows too — the small launcher `plugin/run-local.mjs` starts npx). One line (Claude Code 2.1.275 or later):
 
 ```bash
 claude plugin install on-tidy --marketplace on-munseo/on-tidy

@@ -1,7 +1,7 @@
 {
   "name": "on-tidy",
-  "version": "0.1.0",
-  "description": "On 글 다듬기 원격 MCP(https://onmunseo.kr/mcp/tidy) 연결 — 서술형 글을 공문서 개조식으로 바꾸고, 맞춤법·띄어쓰기와 어려운 말을 고치는 원격 MCP 서버. 서버 주소 하나만 담은 설정 꾸러미이며 엔진 코드·비밀값은 없습니다. A remote MCP server that rewrites Korean prose in official bullet style (gaejo), fixes near-certain spelling and spacing errors, and replaces hard words with plain ones.",
+  "version": "0.2.0",
+  "description": "On 글 다듬기(개조식·맞춤법·쉬운 말) — 내 PC 판(npm on-munseo-local)을 붙이는 Claude Code 플러그인. 문서를 이 컴퓨터 밖으로 보내지 않고, 이 프로그램은 인터넷을 쓰지 않습니다(npx 가 꾸러미를 받을 때만). Node.js 20 이상이 있어야 합니다. 엔진 코드·비밀값은 이 저장소에 없습니다. A Claude Code plugin that adds the local edition (npm on-munseo-local): documents stay on this computer. Needs Node.js 20+.",
   "author": {
     "name": "On 문서",
     "url": "https://github.com/on-munseo"
@@ -17,5 +17,10 @@
     "mcp"
   ],
   "license": "MIT",
-  "privacyPolicyUrl": "https://onmunseo.kr/privacy"
+  "privacyPolicyUrl": "https://onmunseo.kr/privacy",
+  "network": {
+    "hosts": [
+      "registry.npmjs.org"
+    ]
+  }
 }

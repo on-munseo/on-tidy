@@ -5,6 +5,10 @@
   "description": "Korean bullet-style rewriting, near-certain spelling fixes and plain-language edits",
   "version": "1.0.0",
   "websiteUrl": "https://github.com/on-munseo/on-tidy",
+  "repository": {
+    "url": "https://github.com/on-munseo/on-tidy",
+    "source": "github"
+  },
   "remotes": [
     {
       "type": "streamable-http",

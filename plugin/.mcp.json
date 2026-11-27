@@ -1,8 +1,10 @@
 {
   "mcpServers": {
-    "on-tidy": {
-      "type": "http",
-      "url": "https://onmunseo.kr/mcp/tidy"
+    "on-local": {
+      "command": "node",
+      "args": [
+        "${CLAUDE_PLUGIN_ROOT}/run-local.mjs"
+      ]
     }
   }
 }
