@@ -107,7 +107,7 @@
 claude mcp add --transport http -s user on-tidy https://onmunseo.kr/mcp/tidy
 ```
 
-**Claude Code 플러그인** — ① 내 PC 판을 붙입니다(Node.js 20 이상, 윈도우도 그대로 — 작은 띄우개 `plugin/run-local.mjs` 가 npx 를 띄움). 한 줄(Claude Code 2.1.275 이상):
+**Claude Code 플러그인** — ① 내 PC 판을 붙입니다(Node.js 20 이상, 윈도우도 그대로 — 작은 띄우개 `plugin/run-local.mjs` 가 npx 를 띄움). 제품 플러그인을 여럿 깔면 내 PC 판이 여럿 떠 같은 도구가 겹쳐 보이니 하나만 까세요. 한 줄(Claude Code 2.1.275 이상):
 
 ```bash
 claude plugin install on-tidy --marketplace on-munseo/on-tidy
