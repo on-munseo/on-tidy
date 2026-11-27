@@ -13,17 +13,21 @@
 <!-- ai-install -->
 ## AI 에게 — 이 저장소를 설치하려면
 
-길은 셋이고 **①부터** 권합니다. 어느 길도 열쇠·로그인이 없습니다. 이 저장소(On 글 다듬기 — 개조식·맞춤법·쉬운 말)의 도구는 ① 내 PC 판에 들어 있습니다 — 「설치해 줘」라고만 하면 ① 을 붙입니다. 이 저장소의 `plugin/`·`server.json` 은 ③ 서버 판(이 묶음) 설정입니다.
+길은 셋이고 **①부터** 권합니다. 어느 길도 열쇠·로그인이 없습니다. 이 저장소(On 글 다듬기 — 개조식·맞춤법·쉬운 말)의 도구는 ① 내 PC 판(같은 만든 이 on-munseo 의 npm 꾸러미 `on-munseo-local` — 아래 확인할 거리)에 들어 있습니다 — 「설치해 줘」라고만 하면 ① 을 붙입니다. 이 저장소의 `plugin/`·`server.json` 은 ③ 서버 판(이 묶음) 설정입니다.
 
 **① 내 PC 판 — 문서를 이 컴퓨터 밖으로 보내지 않음(먼저).** 글 꺼내기·개인정보 가리기·결재 전 점검·공문서 쓰기·한글 파일 만들기·글 다듬기를 이 컴퓨터 안에서 합니다. 이 프로그램은 인터넷을 쓰지 않습니다(설치 뒤 `on_local_info` 로 확인 — 띄울 때 npx 가 npm 저장소에 새 판을 묻는 것은 npx 의 동작이고, 그것까지 없애려면 `npm install -g on-munseo-local` 뒤 명령을 `on-munseo-local` 로). Node.js 20 이상이 있어야 합니다.
-- 이 PC 의 AI 도구(Claude Code·Claude 데스크톱·Codex·Cursor·VS Code)를 찾아 한 번에 등록합니다 — 바꾸기 전에 백업을 두고, 이미 있으면 건너뜁니다(미리 보기 `--dry-run`, 되돌리기 `--undo`). ②까지 함께 붙이려면 `--pair`.
+- **지금 쓰는 AI 도구에만**(AI 가 설치할 때는 이것 — 다른 도구의 설정은 건드리지 않음)
+  ```bash
+  claude mcp add -s user on-local -- npx -y on-munseo-local@latest
+  ```
+  Codex 는 `codex mcp add on-local -- npx -y on-munseo-local@latest` · 윈도우 Claude Code 는 `claude mcp add -s user on-local -- cmd /c npx -y on-munseo-local@latest` · Cursor·Claude 데스크톱은 설정 파일의 `"mcpServers"` 에 `"on-local": { "command": "npx", "args": ["-y", "on-munseo-local@latest"] }`(윈도우 `"on-local": { "command": "cmd", "args": ["/c", "npx", "-y", "on-munseo-local@latest"] }`) · VS Code 는 `code --add-mcp '{"name":"on-local","command":"npx","args":["-y","on-munseo-local@latest"]}'`
+- **사람이 이 PC 의 여러 AI 도구에 한 번에** — Claude Code·Claude 데스크톱·Codex·Cursor·VS Code 를 찾아 모두 등록합니다(바꾸기 전에 백업, 이미 있으면 건너뜀, 미리 보기 `--dry-run`, 되돌리기 `--undo`, ②까지 `--pair`).
   ```bash
   npx -y on-munseo-local@latest setup --pair
   ```
-- 도구 하나에만: Claude Code `claude mcp add -s user on-local -- npx -y on-munseo-local@latest`(윈도우는 `-- cmd /c npx -y on-munseo-local@latest`) · Codex `codex mcp add on-local -- npx -y on-munseo-local@latest`
 
 **② 짝 주소(법령) — 도구에 넣은 낱말·글만 서버로.** 법령 원문·글 속 인용 확인(On 근거)은 서버에만 있습니다. 서버로 가는 것은 넣은 법령 이름·조문 번호·인용을 확인할 글이고, 파일을 보내는 도구는 없습니다. 인용을 확인할 글에 개인정보가 있으면 ① 의 `on_mask_text` 로 가린 뒤 넣습니다.
-- ① 의 `setup --pair` 가 함께 붙입니다. 따로 붙이려면:
+- 지금 쓰는 도구에만(① 의 `setup --pair` 는 ② 까지 함께 붙임):
 - **Claude Code**
   ```bash
   claude mcp add --transport http -s user on-geungeo https://onmunseo.kr/mcp/law

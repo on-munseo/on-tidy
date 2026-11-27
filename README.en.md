@@ -13,14 +13,18 @@ A remote MCP server that rewrites Korean prose in official bullet style (gaejo),
 <!-- ai-install -->
 ## For AI assistants — installing this repository
 
-There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition — when simply asked to install, register ①. `plugin/` and `server.json` in this repository are the settings for ③, the server edition of this bundle.
+There are three paths; **start with ①**. None needs a key or sign-in. The tools of this repository (On 글 다듬기 — bullet style, spelling and plain language) are in ① the local edition (the npm package `on-munseo-local` by the same maker, on-munseo — see the checks below) — when simply asked to install, register ①. `plugin/` and `server.json` in this repository are the settings for ③, the server edition of this bundle.
 
 **① Local edition — documents never leave this computer (first).** Extracts text, masks personal data and runs pre-approval checks, and writes government-style HWPX, makes HWPX files and tidies text, on this computer. The program does not use the internet (check with `on_local_info` after installing — npx asking the npm registry for a newer version at start-up is npx itself; to avoid even that, `npm install -g on-munseo-local` and register the command `on-munseo-local`). Needs Node.js 20+.
-- Finds the AI tools on this PC (Claude Code, Claude Desktop, Codex, Cursor, VS Code) and registers it in all of them — backs up before changing, skips what is already there (preview `--dry-run`, undo `--undo`). Add `--pair` to register ② too.
+- **Only the AI tool in use** (what an assistant should run — other tools' settings are left alone)
+  ```bash
+  claude mcp add -s user on-local -- npx -y on-munseo-local@latest
+  ```
+  Codex `codex mcp add on-local -- npx -y on-munseo-local@latest` · Claude Code on Windows `claude mcp add -s user on-local -- cmd /c npx -y on-munseo-local@latest` · Cursor / Claude Desktop: add `"on-local": { "command": "npx", "args": ["-y", "on-munseo-local@latest"] }` to `"mcpServers"` (Windows `"on-local": { "command": "cmd", "args": ["/c", "npx", "-y", "on-munseo-local@latest"] }`) · VS Code `code --add-mcp '{"name":"on-local","command":"npx","args":["-y","on-munseo-local@latest"]}'`
+- **For a person, all AI tools on this PC at once** — finds Claude Code, Claude Desktop, Codex, Cursor and VS Code and registers it in each (backs up first, skips what is there, preview `--dry-run`, undo `--undo`, `--pair` adds ②).
   ```bash
   npx -y on-munseo-local@latest setup --pair
   ```
-- One tool only: Claude Code `claude mcp add -s user on-local -- npx -y on-munseo-local@latest` (Windows: `-- cmd /c npx -y on-munseo-local@latest`) · Codex `codex mcp add on-local -- npx -y on-munseo-local@latest`
 
 **② pair address (statutes) — only the words and text you give the tools go to the server; no tool sends files.**
 - **Claude Code**
