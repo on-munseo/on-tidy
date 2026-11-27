@@ -5,7 +5,9 @@
 import { spawn } from 'node:child_process';
 
 const win = process.platform === 'win32';
-const child = spawn(win ? 'npx.cmd' : 'npx', ['-y', 'on-munseo-local@latest'], { stdio: 'inherit', shell: win, env: process.env });
+// 이 플러그인은 내 PC 판 도구 가운데 글 다듬기 도구만 켠다(ONDOC_LOCAL_TOOLS=tidy — 제품 플러그인을 여럿 깔아도 도구가 겹치지 않게, on-munseo-local 0.2.1 부터). 쓰는 사람이 이미 정해 두었으면 그것을 따른다
+const env = { ...process.env, ONDOC_LOCAL_TOOLS: process.env.ONDOC_LOCAL_TOOLS || 'tidy' };
+const child = spawn(win ? 'npx.cmd' : 'npx', ['-y', 'on-munseo-local@latest'], { stdio: 'inherit', shell: win, env });
 child.on('error', (e) => { process.stderr.write(`on-munseo-local 을 띄우지 못했습니다(Node.js 20 이상이 있어야 함): ${e.message}\n`); process.exit(1); });
 child.on('exit', (code, signal) => process.exit(code ?? (signal ? 1 : 0)));
 for (const s of ['SIGINT', 'SIGTERM']) process.on(s, () => { try { child.kill(s); } catch {} });
